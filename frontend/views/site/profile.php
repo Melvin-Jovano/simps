@@ -9,7 +9,9 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Biodata';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
+
 <div class="pt-5">
 
     <div class="row">

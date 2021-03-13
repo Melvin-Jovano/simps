@@ -58,9 +58,6 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public static function findIdentity($nisn)
     {
         return static::findOne(['nisn' => $nisn]);
@@ -146,7 +143,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getAuthKey()
     {
-        return $this->auth_key;
+        return false;
     }
 
     /**

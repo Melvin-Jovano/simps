@@ -17,9 +17,6 @@ use frontend\models\ContactForm;
 use frontend\models\Student;
 use common\models\User;
 
-/**
- * Site controller
- */
 class SiteController extends Controller
 {
     /**
@@ -98,7 +95,7 @@ class SiteController extends Controller
             if ($siswa) {
                 if (Yii::$app->getSecurity()->validatePassword($req->post('LoginForm')['password'], $siswa['password'])) {
                 $model->login(User::findByNISN($req->post('LoginForm')['nisn']));
-                return $this->render('dashboard');
+                return $this->redirect('dashboard');
 
             } else {
                 Yii::$app->session->setFlash('danger', 'NISN Atau Kata Sandi Salah');
