@@ -1,120 +1,120 @@
+:root {
+    --primary: #007bff;
+    --danger: #dc3545;
+    --warning: #dc3545;
+    --blue: #007bff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --red: #dc3545;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --green: #28a745;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
+}
+
 html,
 body {
     height: 100%;
 }
 
-.wrap {
-    min-height: 100%;
-    height: auto;
-    margin: 0 auto -60px;
-    padding: 0 0 60px;
+.nav-link {
+    color:var(--dark);
 }
 
-.wrap > .container {
-    padding: 70px 15px 20px;
+.bio-data {
+	letter-spacing: 1px;
 }
 
-.footer {
-    height: 60px;
-    background-color: #f5f5f5;
-    border-top: 1px solid #ddd;
-    padding-top: 20px;
+.active {
+    background-color: var(--dark)!important;
 }
 
-.jumbotron {
-    text-align: center;
-    background-color: transparent;
+.help-block-error {
+    color:var(--danger);
+	font-size: small;
 }
-
-.jumbotron .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+.wallpaper{
+	position: fixed;
+	z-index: 1;
+	width: 100vw;
+	height: 100vh;
 }
-
-.not-set {
-    color: #c55;
-    font-style: italic;
+.boxes1{
+	animation: boxed 30s infinite linear;
+	background-color: grey;
+	width: 85px;
+	margin-left: 5%;
+	height: 85px;
+	position: relative;
+	z-index: -1;
 }
-
-/* add sorting icons to gridview sort links */
-a.asc:after, a.desc:after {
-    position: relative;
-    top: 1px;
-    display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-style: normal;
-    font-weight: normal;
-    line-height: 1;
-    padding-left: 5px;
+.boxes2{
+	animation: boxed 20s infinite linear;
+	margin-left: 10%;
+	background-color: grey;
+	width: 45px;
+	height: 45px;
+	position: relative;
+	z-index: -1;
 }
-
-a.asc:after {
-    content: "\e151";
+.boxes3{
+	animation: boxed 25s infinite linear;
+	background-color: grey;
+	margin-left: 30%;
+	width: 120px;
+	height: 120px;
+	position: relative;
+	z-index: -1;
 }
-
-a.desc:after {
-    content: "\e152";
+.boxes4{
+	animation: boxed 45s infinite linear;
+	background-color: grey;
+	margin-left: 80%;
+	width: 320px;
+	height: 320px;
+	position: relative;
+	z-index: -1;
 }
-
-.sort-numerical a.asc:after {
-    content: "\e153";
+.boxes5{
+	animation: boxed 30s infinite linear;
+	background-color: grey;
+	margin-left: 45%;
+	width: 220px;
+	height: 220px;
+	position: relative;
+	z-index: -1;
 }
-
-.sort-numerical a.desc:after {
-    content: "\e154";
+.boxes6{
+	animation: boxed 40s infinite linear;
+	background-color: grey;
+	margin-left: 5%;
+	width: 270px;
+	height: 270px;
+	position: relative;
+	z-index: -1;
 }
-
-.sort-ordinal a.asc:after {
-    content: "\e155";
-}
-
-.sort-ordinal a.desc:after {
-    content: "\e156";
-}
-
-.grid-view td {
-    white-space: nowrap;
-}
-
-.grid-view .filters input,
-.grid-view .filters select {
-    min-width: 50px;
-}
-
-.hint-block {
-    display: block;
-    margin-top: 5px;
-    color: #999;
-}
-
-.error-summary {
-    color: #a94442;
-    background: #fdf7f7;
-    border-left: 3px solid #eed3d7;
-    padding: 10px 20px;
-    margin: 0 0 15px 0;
-}
-
-/* align the logout "link" (button in form) of the navbar */
-.nav li > form > button.logout {
-    padding: 15px;
-    border: none;
-}
-
-@media(max-width:767px) {
-    .nav li > form > button.logout {
-        display:block;
-        text-align: left;
-        width: 100%;
-        padding: 10px 15px;
-    }
-}
-
-.nav > li > form > button.logout:focus,
-.nav > li > form > button.logout:hover {
-    text-decoration: none;
-}
-
-.nav > li > form > button.logout:focus {
-    outline: none;
+@keyframes boxed {
+	0%{
+		opacity: 0.5;
+		top: 100%;
+		transform: rotate(0deg);
+	}
+	100%{
+		opacity: 0;
+		top: 0;
+		transform: rotate(720deg);
+	}
 }

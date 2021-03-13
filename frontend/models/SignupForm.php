@@ -3,16 +3,17 @@ namespace frontend\models;
 
 use Yii;
 use yii\base\Model;
-use common\models\User;
+use frontend\models\Student;
 
 /**
  * Signup form
  */
 class SignupForm extends Model
 {
-    public $username;
-    public $email;
+    public $nisn;
+    public $nama;
     public $password;
+    public $repeat_password;
 
 
     /**
@@ -21,59 +22,35 @@ class SignupForm extends Model
     public function rules()
     {
         return [
-            ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['nisn', 'required', 'message' => 'NISN Tidak Boleh Kosong'],
+            ['nisn', 'unique', 'message' => 'NISN Sudah Terdaftar'],
+            ['nisn', 'number', 'message' => 'NISN Harus Nomor'],
+            ['nisn', 'string', 'min' => 8, 'tooShort' => 'NISN Terlalu Pendek'],
 
-            ['email', 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['nama', 'required', 'message' => 'Nama Tidak Boleh Kosong'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['password', 'required', 'message' => 'Kata Sandi Tidak Boleh Kosong'],
+            ['password', 'string', 'min' => 8, 'tooShort' => 'Kata Sandi Terlalu Pendek'],
+
+            ['repeat_password', 'required', 'message' => "Ulangi Kata Sandi Tidak Boleh Kosong" ],
+            ['repeat_password', 'compare', 'compareAttribute' => 'password', 'message' => "Kata Sandi Tidak Cocok" ],
         ];
     }
 
-    /**
-     * Signs user up.
-     *
-     * @return bool whether the creating new account was successful and email was sent
-     */
-    public function signup()
+    public function signup($data = [])
     {
-        if (!$this->validate()) {
-            return null;
-        }
-        
-        $user = new User();
-        $user->username = $this->username;
-        $user->email = $this->email;
-        $user->setPassword($this->password);
-        $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
-        return $user->save() && $this->sendEmail($user);
+        $student = new Student;
+        $student->nisn = (int)$data["SignupForm"]["nisn"];
+        $student->nis = "";
+        $student->nama = $data["SignupForm"]["nama"];
+        $student->password = Yii::$app->security->generatePasswordHash($data["SignupForm"]["password"]);
+        $student->id_kelas = "";
+        $student->alamat = "";
+        $student->no_telp = "";
+        $student->id_spp = "";
+        $student->created_at = date('Y-m-d H:i:s');
 
-    }
+        $student->save();
 
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
-    protected function sendEmail($user)
-    {
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Account registration at ' . Yii::$app->name)
-            ->send();
     }
 }

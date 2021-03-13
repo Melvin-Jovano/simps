@@ -7,28 +7,40 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Signup';
+$this->title = 'Daftar';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to signup:</p>
+<div class="pt-5">
 
     <div class="row">
-        <div class="col-lg-5">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 card p-5 my-2">
+            <h1><?= Html::encode($this->title) ?></h1>
+
+            <p>Mohon Isi Data Di Bawah Ini Untuk Membuat Akun Baru :</p>
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <?= $form->field($model, 'nisn')->textInput()->label("NISN") ?>
+                    </div>
 
-                <?= $form->field($model, 'email') ?>
+                    <div class="col-lg-6">
+                        <?= $form->field($model, 'nama')->textInput() ?>
+                    </div>
 
-                <?= $form->field($model, 'password')->passwordInput() ?>
+                    <div class="col-lg-6">
+                        <?= $form->field($model, 'password')->passwordInput()->label("Kata Sandi") ?>
+                    </div>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+                    <div class="col-lg-6">
+                        <?= $form->field($model, 'repeat_password')->passwordInput()->label("Ulangi Kata Sandi") ?>
+                    </div>
                 </div>
 
+                <div class="form-group">
+                    <?= Html::submitButton('<i class="fas fa-plus mr-2"></i>Daftar', ['class' => 'btn btn-dark', 'name' => 'signup-button']) ?>
+                </div>
             <?php ActiveForm::end(); ?>
         </div>
     </div>
