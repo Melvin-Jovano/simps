@@ -15,7 +15,7 @@ use Yii;
  * @property string $no_telp
  * @property int $id_spp
  */
-class Student extends \yii\db\ActiveRecord
+class Info extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
@@ -31,12 +31,10 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nisn', 'nama'], 'required'],
-            [['nisn', 'nis', 'id_kelas', 'id_spp', 'id_skill'], 'integer'],
-            [['nama', 'alamat', 'no_telp'], 'string'],
-            [['nis'], 'unique'],
-            [['nisn'], 'unique'],
-            [['id_spp'], 'unique'],
+            [['nis'], 'required', 'message' => 'NIS Tidak Boleh Kosong'],
+            [['nis'], 'number', 'message' => 'NIS Harus Nomor'],
+            // [['no_telp'], 'required', 'message' => 'Nomor Telepon Tidak Boleh Kosong'],
+            [['alamat'], 'required', 'message' => 'Alamat Tidak Boleh Kosong'],
         ];
     }
 
@@ -59,6 +57,5 @@ class Student extends \yii\db\ActiveRecord
     public function getSiswa($nisn)
     {
         return static::findOne(['nisn' => $nisn]);
-
     }
 }

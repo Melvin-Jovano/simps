@@ -24,7 +24,8 @@ class LoginForm extends Model
     {
         return [
             // username and password are both required
-            [['nisn', 'password'], 'required'],
+            [['nisn'], 'required'],
+            [ 'password', 'string'],
             // rememberMe must be a boolean value
             ['rememberMe', 'boolean'],
         ];
@@ -38,5 +39,10 @@ class LoginForm extends Model
     public function login($data = [])
     {
         return Yii::$app->user->login($data, $this->rememberMe ? 3600 * 24 * 30 : 0);
+    }
+
+    public function loginAdmin($data = [])
+    {
+        return Yii::$app->user->identity->login($data, $this->rememberMe ? 3600 * 24 * 30 : 0);
     }
 }

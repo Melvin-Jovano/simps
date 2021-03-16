@@ -2,52 +2,59 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'Riwayat Pembayaran';
 ?>
-<div class="site-index">
+<div class="pt-5">
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 card p-5 my-2">
+            <h2 class="text-center">~ Riwayat Pembayaran ~</h2>
+            <hr>
+            <fieldset class="border px-3">
+                <legend class="w-auto">
+                    <a tabindex="0" data-html="true" role="button" id="popover" data-trigger="focus" title="" data-content="<b>Klik Untuk Melihat Riwayat Data Dari Waktu Ke Waktu</b>" data-placement="left">
+                        <input type="text" name="date" id="datepicker" class="form-control" style="width:205px!important;cursor:pointer!important;">
+                    </a>
+                </legend>
+                <button style="float:right" class="btn btn-dark mb-3 btn-inline"><i class="fas fa-search mr-2"></i>Lihat Semua Pembayaran</button>
+                <table class="table table-striped">
+                    <tr>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>Nominal</th>
+                    </tr>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+                    <?php for($i=1;$i<11;$i++): ?>
+                    <tr>
+                        <td><?= $i ?></td>
+                        <td>01-20-2021</td>
+                        <td>Rp.10.000</td>
+                    </tr>
+                    <?php endfor; ?>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+                    <tr>
+                        <th colspan="2">Jumlah</th>
+                        <th>Rp.100.000</th>
+                    </tr>
+                </table>
+            </fieldset>
         </div>
-
     </div>
 </div>
+
+<?php
+
+$this->registerJs('
+    $(document).ready(function(){
+        $("#datepicker").daterangepicker({
+            "timepicker" : true,
+            "applyClass": "btn-dark"
+        });
+
+        $("#datepicker").val("");
+        $("#datepicker").attr("placeholder", "Tanggal Pembayaran...");
+
+    $("#popover").popover("show");
+
+    });', \yii\web\View::POS_READY);

@@ -18,16 +18,16 @@ use yii\helpers\Html;
         
     // ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => '<i class="fas fa-user-plus mr-2"></i>Daftar', 'url' => ['/site/signup']];
+        // $menuItems[] = ['label' => '<i class="fas fa-user-plus mr-2"></i>Daftar', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => '<i class="fas fa-user mr-2"></i>Masuk', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = ['label' => '<i class="fas fa-signal mr-2"></i>Dashboard', 'url' => ['/site/dashboard']];
+        $menuItems[] = ['label' => '<i class="fas fa-signal mr-2"></i>Riwayat Pembayaran', 'url' => ['/site/dashboard']];
         $menuItems[] = ['label' => '<i class="fas fa-address-card mr-2"></i>Biodata', 'url' => ['/site/profile']];
 
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->nama . ')',
+                '<i class="fas fa-door-open mr-2"></i>Logout (' . Yii::$app->user->identity->nama . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()

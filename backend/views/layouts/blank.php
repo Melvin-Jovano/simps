@@ -5,6 +5,7 @@
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
+use common\widgets\Alert;
 
 AppAsset::register($this);
 ?>
@@ -19,15 +20,13 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="blank">
+<body>
 <?php $this->beginBody() ?>
 
-<div class="container">
-
-    <div class="wrap">
-        <?= $content ?>
-    </div>
-
+<div class="container p-5">
+	<?= Alert::widget() ?>
+	
+    <?= $content ?>
 </div>
 
 <?php $this->endBody() ?>
