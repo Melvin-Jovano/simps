@@ -18,7 +18,7 @@ use yii\helpers\ArrayHelper;
 
             <?= $form->field($model, 'nama')->textInput(['rows' => 6]) ?>
 
-            <?= $form->field($model, 'no_telp')->textInput(['rows' => 6]) ?>
+            <?= $form->field($model, 'no_telp')->textInput(['rows' => 6, 'id' => "tel"]) ?>
         </div>
 
         <div class="col-6">
@@ -53,3 +53,19 @@ use yii\helpers\ArrayHelper;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+
+<?php
+
+$this->registerJs('
+    $(document).ready(function(){
+        $("#tel").on("keydown", () => {
+            if($("#tel").val().length == 4) {
+                $("#tel").val($("#tel").val() + "-"); 
+            } else if($("#tel").val().length == 9) {
+                $("#tel").val($("#tel").val() + "-"); 
+            }
+        });
+    });', \yii\web\View::POS_READY);
+
+?>
