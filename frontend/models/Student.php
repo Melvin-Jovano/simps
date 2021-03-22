@@ -31,12 +31,15 @@ class Student extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nisn', 'nama'], 'required'],
+            [['nisn'], 'required', 'message' => 'NISN Tidak Boleh Kosong'],
+            [['nisn'], 'number', 'message' => 'NISN Harus Nomor'],
+            [['nama'], 'required', 'message' => 'Nama Tidak Boleh Kosong'],
             [['nisn', 'nis', 'id_kelas', 'id_spp', 'id_skill'], 'integer'],
             [['nama', 'alamat', 'no_telp'], 'string'],
             [['nis'], 'unique'],
             [['nisn'], 'unique'],
             [['id_spp'], 'unique'],
+            [['password'], 'string', 'min' => 6, 'tooShort' => 'Kata Sandi Terlalu Pendek'],
         ];
     }
 

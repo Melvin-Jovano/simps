@@ -25,7 +25,7 @@ $this->title = 'Masuk';
 
                 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true])->label("Username"); ?>
+                <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'autocomplete' => 'off'])->label("Username"); ?>
                 
                 <br>
 

@@ -17,9 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
             <p>Silahkan Isi Data Berikut Untuk Dapat Masuk :</p>
             <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                
-
                 <?php if($password): ?>
                     <?= $form->field($model, 'nisn')->textInput(['readonly' => true])->label("NISN"); ?>
                     <?= $form->field($model, 'password')->passwordInput(['autofocus' => true])->label("Kata Sandi"); ?>
@@ -29,10 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?php endif; ?>
 
                 <?= $form->field($model, 'rememberMe')->checkbox()->label("Ingat Saya"); ?>
-
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset here', ['site/request-password-reset']) ?>
-                </div>
 
                 <div class="">
                     <?= Html::submitButton('<i class="fas fa-sign-in-alt mr-2"></i>Masuk', ['class' => 'btn btn-dark', 'name' => 'login-button']) ?>

@@ -20,6 +20,19 @@ class StudentController extends Controller
      */
     public function behaviors()
     {
+        if (Yii::$app->user->identity->level != 1) {
+            $access = [
+                        'actions' => ['delete', 'update', 'create', 'delete', 'index', 'view'],
+                        'allow' => true,
+                        'roles' => ['@'],
+            ];
+        } else {
+            $access = [
+                        'actions' => ['delete', 'update', 'create', 'delete', 'index', 'view'],
+                        'allow' => false,
+                        'roles' => ['@'],
+            ];
+        }
         return [
             'access' => [
                 'class' => AccessControl::className(),
@@ -30,11 +43,7 @@ class StudentController extends Controller
                         'allow' => true,
                         'roles' => ['?'],
                     ],
-                    [
-                        'actions' => ['delete', 'update', 'create', 'delete', 'index', 'view'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
+                    $access,
                 ],
             ],
             'verbs' => [
@@ -106,6 +115,8 @@ class StudentController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->password = "";
+
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->nisn]);

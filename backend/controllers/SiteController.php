@@ -10,6 +10,7 @@ use backend\models\Spp;
 use common\models\Petugas;
 use common\models\LoginForm;
 use common\models\User;
+use frontend\models\Student;
 
 /**
  * Site controller
@@ -24,7 +25,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'dashboard', 'index'],
+                'only' => ['logout', 'dashboard', 'index', 'report'],
                 'rules' => [
                     [
                         'actions' => ['login'],
@@ -32,7 +33,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout', 'dashboard', 'index'],
+                        'actions' => ['logout', 'dashboard', 'index', 'report'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -71,17 +72,41 @@ class SiteController extends Controller
 
     public function actionDashboard()
     {
-        return $this->render('index');
-    }
+        $this->layout = '_dashboard';
+        $dataToday = Spp::find()->where(['>=', 'created_at', date("Y-m-d")])->all();
+        
+        $totalToday = Spp::find()->select("sum(nominal) as nominal")->where(['>=', 'created_at', date("Y-m-d")])->one();
 
-    public function actionStudent()
-    {
-        return $this->redirect(['student/index']);
+        $totalMonth = Spp::find()->select("sum(nominal) as nominal")->where(['>=', 'created_at', date("Y-m-1")])->one();
+
+
+        return $this->render('index', [
+            'date' => $dataToday,
+            'totalToday' => $totalToday,
+            'totalMonth' => $totalMonth,
+        ]);
     }
 
     public function actionBilling()
     {
         $spp = new Spp;
+        
+        if (Yii::$app->request->post()) {
+            if (Yii::$app->request->post("nama-siswa") == "") {
+                Yii::$app->session->setFlash('danger', 'Nama Siswa Harus Terisi');
+                return $this->render('billing', [
+                    'model' => $spp
+                ]);
+            } else {
+                Yii::$app->session->setFlash('success', 'Pembayaran Berhasil');
+                $check = Spp::find()->select(['nisn'])->where(['nisn' => Yii::$app->request->post("nama-siswa")])->one();
+                $spp->nisn = Yii::$app->request->post("nama-siswa");
+                $spp->nominal = Yii::$app->request->post("Spp")['nominal'];
+                $spp->save();
+                return $this->redirect(["site/billing"]);
+            }
+        }
+
         return $this->render('billing', [
             'model' => $spp
         ]);
@@ -144,5 +169,10 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionReport()
+    {
+        return $this->render('report');
     }
 }

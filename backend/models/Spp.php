@@ -3,7 +3,6 @@
 namespace backend\models;
 
 use Yii;
-
 /**
  * This is the model class for table "spp".
  *
@@ -13,6 +12,7 @@ use Yii;
  */
 class Spp extends \yii\db\ActiveRecord
 {
+    public $nama_petugas;
     /**
      * {@inheritdoc}
      */
@@ -27,10 +27,11 @@ class Spp extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'nominal'], 'required', 'message' => 'Nominal Tidak Boleh Kosong'],
+            [['nisn'], 'required', 'message' => 'NISN Tidak Boleh Kosong'],
+            [['nisn'], 'number', 'message' => 'NISN Harus Nomor'],
+            [['nominal'], 'required', 'message' => 'Nominal Tidak Boleh Kosong'],
             [['nominal'], 'number', 'message' => 'Nominal Harus Nomor'],
-            [['id'], 'integer'],
-            [['nominal'], 'string'],
+            [['nominal'], 'compare','operator'=>'>=','compareValue'=>90, 'message'=>'Nominal Harus Lebih Besar Atau Sama Dengan 150000'  ],
             [['created_at'], 'safe'],
         ];
     }

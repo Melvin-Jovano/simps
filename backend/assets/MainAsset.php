@@ -15,18 +15,19 @@ class MainAsset extends AssetBundle
         'css/styles.css',
         'css/dataTables.css',
         'css/main.css',
-        'assets/fa/css/all.min.css',
+        'fa/css/all.min.css',
+        'css/daterangepicker.css',
     ];
     public $js = [
-        'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js',
+        'js/bootstrap.bundle.min.js',
         'js/scripts.js',
         'js/chart.min.js',
-        'js/demo/chart-area-demo.js',
-        'js/demo/chart-bar-demo.js',
-        'js/demo/chart-pie-demo.js',
         'js/jquery.dataTables.min.js',
         'js/dataTables.bs4.min.js',
         'js/demo/datatables-demo.js',
+        'js/moment.min.js',
+        'js/daterangepicker.js',
+        'html2pdf/ppdf.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

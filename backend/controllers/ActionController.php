@@ -7,6 +7,7 @@ use yii\helpers\Url;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use backend\models\LoginPetugas;
+use backend\models\Spp;
 use backend\models\Shortcut;
 use common\models\Petugas;
 use common\models\LoginForm;
@@ -27,7 +28,7 @@ class ActionController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['get-siswa'],
+                'only' => ['get-siswa', 'get-diagram'],
                 'rules' => [
                     [
                         'actions' => [],
@@ -35,7 +36,7 @@ class ActionController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['get-siswa'],
+                        'actions' => ['get-siswa', 'get-diagram'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -45,6 +46,7 @@ class ActionController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'get-siswa' => ['post'],
+                    // 'get-diagram' => ['post'],
                 ],
             ],
         ];
@@ -84,7 +86,37 @@ class ActionController extends Controller
                 ];
 
             }
+        }
+    }
+
+    public function actionGetDiagram()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $req = Yii::$app->request;
+
+        if ($req->isAjax) {
+            $dates = [];
+            $data = [];
             
+            for($i=1;$i<date("d")+1;$i++) {
+                array_push($dates, $i);
+            }
+
+            foreach ($dates as $key) {
+                $num = $key + 1;
+                $tomm = date("Y-m-" . $num, strtotime('tomorrow'));
+                $today = date("Y-m-" . $key);
+                $total = Yii::$app->db->createCommand("SELECT sum(nominal) as total FROM spp WHERE created_at between '$today' AND '$tomm'")->queryScalar();
+
+                array_push($data, $total != "" ? $total : 0);
+            }
+
+            return $response = [
+                'total' => $data,
+                'dates' => $dates,
+                'maximum' => max($data),
+                'month' => date("M"),
+            ];
         }
     }
 
@@ -106,4 +138,82 @@ class ActionController extends Controller
             
         }
     }
+
+    public function actionGetAllHistory()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $req = Yii::$app->request;
+
+        if ($req->isAjax) {
+            $data = (new \yii\db\Query())
+            ->select("spp.created_at, spp.nominal, student.nama, skill.skill, class.class")
+            ->from('spp')
+            ->leftJoin('student', 'student.nisn = spp.nisn')
+            ->leftJoin('skill', 'skill.id = student.id_skill')
+            ->leftJoin('class', 'class.id = student.id_kelas')
+            ->all();
+
+            if($data) {
+                return $response = [
+                    'data' => $data,
+                ];
+            } else {
+                return $response = [
+                    'data' => false
+                ];
+            }
+        }
+    }
+
+    public function actionGetSiswaHistory()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $req = Yii::$app->request;
+
+        if ($req->isAjax) {
+            $data = (new \yii\db\Query())
+            ->select("spp.created_at, spp.nominal, student.nama, skill.skill, class.class, skill.alias")
+            ->from('spp')
+            ->leftJoin('student', 'student.nisn = spp.nisn')
+            ->leftJoin('skill', 'skill.id = student.id_skill')
+            ->leftJoin('class', 'class.id = student.id_kelas')
+            ->where(['spp.nisn' => $req->post("nisn")])
+            ->all();
+
+            if($data) {
+                return $response = [
+                    'data' => $data,
+                ];
+            } else {
+                return $response = [
+                    'data' => false
+                ];
+            }
+        }
+    }
+
+    public function actionGetRangeHistory()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $req = Yii::$app->request;
+
+        if ($req->isAjax) {
+
+            $data = (new \yii\db\Query())
+            ->select("spp.created_at, spp.nominal, student.nama, skill.skill, class.class")
+            ->from('spp')
+            ->leftJoin('student', 'student.nisn = spp.nisn')
+            ->leftJoin('skill', 'skill.id = student.id_skill')
+            ->leftJoin('class', 'class.id = student.id_kelas')
+            ->andWhere(['between', 'spp.created_at', $req->post('date1'), $req->post('date2')])
+            ->all();
+            
+            return $response = [
+                'data' => $data,
+                'date1' => $req->post('date1'),
+                'date2' => $req->post('date2'),
+            ];
+        }
+    }
+
 }

@@ -10,12 +10,12 @@ use yii\grid\GridView;
 $this->title = 'Data Siswa';
 // $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="mt-4">
+<div class="">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<i class="fas fa-plus mr-2"></i>Buat Data Siswa Baru', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('<i class="fas fa-plus mr-2"></i>Buat Data Siswa Baru', ['create'], ['class' => 'btn btn-success my-3']) ?>
     </p>
 
     <?php 

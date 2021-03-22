@@ -31,9 +31,6 @@ $shortcut = Shortcut::find()->select(['name', 'url'])->where(['level' => Yii::$a
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Activity Log</a>
-                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item text-danger" data-method="post" href="<?= Url::toRoute(['site/logout']); ?>">Logout (<?= Yii::$app->user->identity->nama_petugas; ?>)</a>
                     </div>
                 </li>

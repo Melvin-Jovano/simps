@@ -37,8 +37,12 @@ use yii\helpers\ArrayHelper;
             </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-6">
             <?= $form->field($model, 'alamat')->textarea(['rows' => 6]) ?>
+        </div>
+
+        <div class="col-6">
+            <?= $form->field($model, 'password')->passwordInput() ?>
         </div>
     </div>
 

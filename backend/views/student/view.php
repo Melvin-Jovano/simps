@@ -16,14 +16,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('<i class="fas fa-trash-alt mr-2"></i>Delete', ['delete', 'id' => $model->nisn], [
+        <?= Html::a('<i class="fas fa-trash-alt mr-2"></i>Hapus', ['delete', 'id' => $model->nisn], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Apa Anda Yakin Ingin Menghapus Data ' . $model->nama . ' ?',
                 'method' => 'post',
             ],
         ]) ?>
-        <?= Html::a('<i class="fas fa-pencil-alt mr-2"></i>Update', ['update', 'id' => $model->nisn], ['class' => 'btn btn-primary ml-3']) ?>
+        <?= Html::a('<i class="fas fa-pencil-alt mr-2"></i>Ubah', ['update', 'id' => $model->nisn], ['class' => 'btn btn-primary ml-3']) ?>
     </p>
 
     <?= DetailView::widget([

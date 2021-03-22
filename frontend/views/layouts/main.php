@@ -34,7 +34,7 @@ AppAsset::register($this);
     </div>
 </div>
 
-<?php echo Html::img('@web/assets/img/wallpaper.png', ['class' => 'position-fixed w-100 h-100']); ?>
+<?php echo Html::img('@web/img/wallpaper.png', ['class' => 'position-fixed w-100 h-100']); ?>
 
 <?= $this->render("_navbar.php"); ?>
 

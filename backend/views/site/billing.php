@@ -22,8 +22,8 @@ $this->title = 'Pembayaran';
             Data Siswa
         </div>
 
-        <div class="card-content p-3">
-            
+        <div class="card-body">
+            <?php $form = ActiveForm::begin(['id' => 'bio-form']); ?>
             <div class="row">
                 <div class="col-4">
                     <b class="mb-2 d-block">Kelas</b>
@@ -37,7 +37,7 @@ $this->title = 'Pembayaran';
 
                 <div class="col-12 mt-3">
                     <b class="mb-2 d-block">Nama</b>
-                    <select class="form-control" id="nama-siswa">
+                    <select class="form-control" id="nama-siswa" name="nama-siswa">
                         <option>Mohon Pilih Kelas Dan Jurusan Terlebih Dahulu</option>
                     </select>
                 </div>
@@ -50,7 +50,7 @@ $this->title = 'Pembayaran';
 
     <div class="col-lg-6">
         <div class="card">
-            <?php $form = ActiveForm::begin(['id' => 'bio-form']); ?>
+            
 
             <div class="card-header">
                 <i class="fas fa-dollar-sign mr-2"></i>
@@ -88,17 +88,20 @@ $this->registerJs('
     $(document).ready(function(){
 
         let price = 150000;
-        // $("#transaksi").slideToggle();
+        $("#transaksi").slideToggle();
         $("#nama-siswa").prop("disabled", "true");
         $("#btn-pay").prop("disabled", "true");
 
         $("#nominal").on("keyup", (event) => {
             if (parseInt($("#nominal").val()) < price) {
-                $("#exchange").val( parseInt($("#nominal").val()) % price);
+                $("#exchange").val("0");
+                $("#month").html("0");
+                $("#btn-pay").prop("disabled", "true");
             } else {
-                $("#exchange").val(0);
+                $("#btn-pay").removeAttr("disabled");
+                $("#exchange").val( parseInt($("#nominal").val()) % price);
+                $("#month").html(Math.floor(parseInt($("#nominal").val())/price));
             }
-            
         });
 
         $("#id-class").change(() => {
@@ -136,7 +139,6 @@ $this->registerJs('
                             });
                             $("#transaksi").slideDown();
                             $("#nama-siswa").removeAttr("disabled");
-                            $("#btn-pay").removeAttr("disabled");
                         }
                     } else {
                         $("#transaksi").slideUp();
