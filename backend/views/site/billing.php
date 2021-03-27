@@ -53,7 +53,7 @@ $this->title = 'Pembayaran';
             
 
             <div class="card-header">
-                <i class="fas fa-dollar-sign mr-2"></i>
+                <i class="fas fa-money-bill-alt mr-2"></i>
                 Transaksi
             </div>
 

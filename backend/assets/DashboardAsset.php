@@ -18,7 +18,7 @@ class DashboardAsset extends AssetBundle
         'fa/css/all.min.css',
     ];
     public $js = [
-        'https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js',
+        'js/bootstrap.bundle.min.js',
         'js/scripts.js',
         'js/chart.min.js',
         'js/jquery.dataTables.min.js',
