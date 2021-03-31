@@ -12,13 +12,19 @@ $this->title = 'Dashboard';
         
         <div class="row">
             <div class="col-xl-12">
+                <div id="alert-data" class="alert alert-info alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Data Untuk Bulan Ini Tidak Ditemukan
+                </div>
                 <div class="card mb-4">
                     <div class="card-header">
                         <i class="fas fa-chart-area mr-1"></i>
                         Diagram Pembayaran Bulan Ini
                         <span class="float-right">Total Semua : <?= "Rp." . number_format($totalMonth['nominal']); ?></span>
                     </div>
-                    <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                    <div class="card-body">
+                        <canvas id="myAreaChart" width="100%" height="40"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
@@ -95,6 +101,7 @@ $this->title = 'Dashboard';
 <?php 
 
 $this->registerJs('
+    $("#alert-data").hide();
     let formData = new FormData;
     $.ajax({
         url : "/action/get-diagram",
@@ -103,65 +110,68 @@ $this->registerJs('
         processData: false,
         contentType: false,
         success : (data) => {
-            let myDate = [];
-
-            data.dates.forEach((date) => {
-                myDate.push(data.month + " " + date);
-            });
-
-            let maximum = data.maximum;
-            Chart.defaults.global.defaultFontFamily = "-apple-system,system-ui,BlinkMacSystemFont,Roboto";
-            Chart.defaults.global.defaultFontColor = "#292b2c";
-
-            var ctx = document.getElementById("myAreaChart");
-            var myLineChart = new Chart(ctx, {
-                type: "line",
-                data: {
-                    labels: myDate,
-                    datasets: [{
-                        label: "Total",
-                        lineTension: 0.3,
-                        backgroundColor: "rgba(2,117,216,0.2)",
-                        borderColor: "rgba(2,117,216,1)",
-                        pointRadius: 5,
-                        pointBackgroundColor: "rgba(2,117,216,1)",
-                        pointBorderColor: "rgba(255,255,255,0.8)",
-                        pointHoverRadius: 5,
-                        pointHoverBackgroundColor: "rgba(2,117,216,1)",
-                        pointHitRadius: 50,
-                        pointBorderWidth: 2,
-                        data: data.total,
-                    }],
-                },
-                options: {
-                    scales: {
-                    xAxes: [{
-                        time: {
-                            unit: "date"
-                        },
-                        gridLines: {
-                            display: false
-                        },
-                        ticks: {
-                            maxTicksLimit: 8
-                        }
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            min: 0,
-                            max: parseInt(maximum),
-                            maxTicksLimit: 5
-                        },
-                        gridLines: {
-                            color: "rgba(0, 0, 0, .125)",
-                        }
-                    }],
-                    },
-                    legend: {
-                        display: false
-                    }
-                }
+            if(!data.total) {
+                $("#alert-data").show("slow");
+            } else {
+                let myDate = [];
+                data.dates.forEach((date) => {
+                    myDate.push(data.month + " " + date);
                 });
+
+                let maximum = data.maximum;
+                Chart.defaults.global.defaultFontFamily = "-apple-system,system-ui,BlinkMacSystemFont,Roboto";
+                Chart.defaults.global.defaultFontColor = "#292b2c";
+
+                var ctx = document.getElementById("myAreaChart");
+                var myLineChart = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: myDate,
+                        datasets: [{
+                            label: "Total",
+                            lineTension: 0.3,
+                            backgroundColor: "rgba(2,117,216,0.2)",
+                            borderColor: "rgba(2,117,216,1)",
+                            pointRadius: 5,
+                            pointBackgroundColor: "rgba(2,117,216,1)",
+                            pointBorderColor: "rgba(255,255,255,0.8)",
+                            pointHoverRadius: 5,
+                            pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                            pointHitRadius: 50,
+                            pointBorderWidth: 2,
+                            data: data.total,
+                        }],
+                    },
+                    options: {
+                        scales: {
+                        xAxes: [{
+                            time: {
+                                unit: "date"
+                            },
+                            gridLines: {
+                                display: false
+                            },
+                            ticks: {
+                                maxTicksLimit: 8
+                            }
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: parseInt(maximum),
+                                maxTicksLimit: 5
+                            },
+                            gridLines: {
+                                color: "rgba(0, 0, 0, .125)",
+                            }
+                        }],
+                        },
+                        legend: {
+                            display: false
+                        }
+                    }
+                    });
+                }
             }
     });
 ');

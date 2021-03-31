@@ -127,7 +127,7 @@ class SiteController extends Controller
                     return $this->redirect('dashboard');
                 }
             } else {
-                Yii::$app->session->setFlash('success', 'NISN TIdak Terdaftar');
+                Yii::$app->session->setFlash('danger', 'NISN TIdak Terdaftar');
                 $model->nisn = $req->post('LoginForm')['nisn'];
                 $model->password = "";
                 return $this->render('login', [

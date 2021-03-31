@@ -98,25 +98,53 @@ class ActionController extends Controller
             $dates = [];
             $data = [];
             
-            for($i=1;$i<date("d")+1;$i++) {
+            $last = date("t");
+
+            for($i=1; $i<date("d")+1; $i++) {
                 array_push($dates, $i);
             }
 
             foreach ($dates as $key) {
                 $num = $key + 1;
-                $tomm = date("Y-m-" . $num, strtotime('tomorrow'));
+                $tomm = date("Y-m-" . $num);
                 $today = date("Y-m-" . $key);
                 $total = Yii::$app->db->createCommand("SELECT sum(nominal) as total FROM spp WHERE created_at between '$today' AND '$tomm'")->queryScalar();
-
-                array_push($data, $total != "" ? $total : 0);
+                
+                if ($num == $last + 1) {
+                    if (date("m") == 12) {
+                        $nextYear = date('Y', strtotime('+1 year'));
+                        $myDate = date('m',strtotime('first day of +1 month'));
+                        $nextDate = date($nextYear . "-" . $myDate . "-1");
+                        $total = Yii::$app->db->createCommand("SELECT sum(nominal) as total FROM spp WHERE created_at between '2021-03-30' AND '$nextDate'")->queryScalar();
+                        array_push($data, $total != "" ? $total : 0);
+                    } else {
+                        $myDate = date('m',strtotime('first day of +1 month'));
+                        $nextDate = date("Y-" . $myDate . "-1");
+                        $total = Yii::$app->db->createCommand("SELECT sum(nominal) as total FROM spp WHERE created_at between '2021-03-30' AND '$nextDate'")->queryScalar();
+                        array_push($data, $total != "" ? $total : 0);
+                    }
+                    
+                } else {
+                    array_push($data, $total != "" ? $total : 0);
+                }
             }
 
-            return $response = [
-                'total' => $data,
-                'dates' => $dates,
-                'maximum' => max($data),
-                'month' => date("M"),
-            ];
+            if (max($data) == 0) {
+                return $response = [
+                    'total' => false,
+                    'dates' => $dates,
+                    'maximum' => max($data),
+                    'month' => date("M"),
+                ];
+            } else {
+                return $response = [
+                    'total' => $data,
+                    'dates' => $dates,
+                    'maximum' => max($data),
+                    'month' => date("M"),
+                ];
+            }
+            
         }
     }
 

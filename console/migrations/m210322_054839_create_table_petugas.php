@@ -17,7 +17,7 @@ class m210322_054839_create_table_petugas extends Migration
             "username" => $this->text(),    
             "password" => $this->text(),
             "nama_petugas" => $this->text(),
-            "level" => "ENUM('1', '2')",
+            "level" => $this->integer(),
         ]);
 
         $this->insert("petugas", [
