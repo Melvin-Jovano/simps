@@ -235,12 +235,13 @@ class ActionController extends Controller
             ->leftJoin('class', 'class.id = student.id_kelas')
             ->andWhere(['between', 'spp.created_at', $req->post('date1'), $req->post('date2')])
             ->all();
-            
+
             return $response = [
                 'data' => $data,
                 'date1' => $req->post('date1'),
                 'date2' => $req->post('date2'),
             ];
+
         }
     }
 

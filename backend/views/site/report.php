@@ -213,68 +213,73 @@ $this->registerJs('
         $("#datepicker").attr("placeholder", "Tanggal Pembayaran...");
 
         function getRangeHistory() {
-            $.ajax({
-                url : "/action/get-range-history",
-                type : "post",
-                data: dateData,
-                processData: false,
-                contentType: false,
-                success : (data) => {
-                    $("#tbody").html("");
-                    let num = 1;
-                    let total = 0;
-                    if(!data.data) {
-                        alert("Data Tidak Ditemukan");
-                    } else {
-                        data.data.forEach((spp) => {
-                            total += parseInt(spp.nominal);
+            if($("#datepicker").val() == "") {
+                alert("Silahkan Masukkan Tanggal Terlebih Dahulu");
+            } else {
+                $.ajax({
+                    url : "/action/get-range-history",
+                    type : "post",
+                    data: dateData,
+                    processData: false,
+                    contentType: false,
+                    success : (data) => {
+                        $("#tbody").html("");
+                        let num = 1;
+                        let total = 0;
+                        if(data.data == "") {
+                            alert("Data Tidak Ditemukan");
+                            $("#dateReport").html("");
+                        } else {
+                            data.data.forEach((spp) => {
+                                total += parseInt(spp.nominal);
+                                let tr = document.createElement("tr");
+
+                                let tdNum = document.createElement("td");
+                                tdNum.innerHTML = num;
+
+                                let tdNama = document.createElement("td");
+                                tdNama.innerHTML = spp.nama;
+
+                                let tdKelas = document.createElement("td");
+                                tdKelas.innerHTML = spp.class;
+
+                                let tdSkill = document.createElement("td");
+                                tdSkill.innerHTML = spp.skill;
+
+                                let tdDate = document.createElement("td");
+                                tdDate.innerHTML = spp.created_at;
+
+                                let tdNom = document.createElement("td");
+                                tdNom.innerHTML = "Rp." + number_format(spp.nominal);
+
+                                tr.append(tdNum);
+                                tr.append(tdNama);
+                                tr.append(tdKelas);
+                                tr.append(tdSkill);
+                                tr.append(tdDate);
+                                tr.append(tdNom);
+
+                                document.querySelector("#tbody").append(tr);
+                                num++;
+                            });
                             let tr = document.createElement("tr");
 
-                            let tdNum = document.createElement("td");
-                            tdNum.innerHTML = num;
+                            let tdJumlah = document.createElement("th");
+                            tdJumlah.innerHTML = "Jumlah";
+                            tdJumlah.setAttribute("colspan", "5");
 
-                            let tdNama = document.createElement("td");
-                            tdNama.innerHTML = spp.nama;
+                            let tdTotal = document.createElement("th");
+                            tdTotal.innerHTML = "Rp." + number_format(total);
 
-                            let tdKelas = document.createElement("td");
-                            tdKelas.innerHTML = spp.class;
-
-                            let tdSkill = document.createElement("td");
-                            tdSkill.innerHTML = spp.skill;
-
-                            let tdDate = document.createElement("td");
-                            tdDate.innerHTML = spp.created_at;
-
-                            let tdNom = document.createElement("td");
-                            tdNom.innerHTML = "Rp." + number_format(spp.nominal);
-
-                            tr.append(tdNum);
-                            tr.append(tdNama);
-                            tr.append(tdKelas);
-                            tr.append(tdSkill);
-                            tr.append(tdDate);
-                            tr.append(tdNom);
+                            tr.append(tdJumlah);
+                            tr.append(tdTotal);
 
                             document.querySelector("#tbody").append(tr);
-                            num++;
-                        });
-                        let tr = document.createElement("tr");
-
-                        let tdJumlah = document.createElement("th");
-                        tdJumlah.innerHTML = "Jumlah";
-                        tdJumlah.setAttribute("colspan", "5");
-
-                        let tdTotal = document.createElement("th");
-                        tdTotal.innerHTML = "Rp." + number_format(total);
-
-                        tr.append(tdJumlah);
-                        tr.append(tdTotal);
-
-                        document.querySelector("#tbody").append(tr);
-                        $("#dateReport").html("Tanggal " + data.date1 + " - " + data.date2);
-                    }   
-                }
-            });
+                            $("#dateReport").html("Tanggal " + data.date1 + " - " + data.date2);
+                        }   
+                    }
+                });
+            }
         }
 
         function getAllData() {
@@ -291,6 +296,7 @@ $this->registerJs('
                     let total = 0;
                     if(!data.data) {
                         alert("Data Tidak Ditemukan");
+                        $("#dateReport").html("");
                     } else {
                         data.data.forEach((spp) => {
                             total += parseInt(spp.nominal);
@@ -361,6 +367,7 @@ $this->registerJs('
                     let kelas;
                     if(!data.data) {
                         alert("Data Tidak Ditemukan");
+                        $("#dateReport").html("");
                     } else {
                         data.data.forEach((spp) => {
                             nama = spp.nama;
@@ -410,8 +417,8 @@ $this->registerJs('
                         tr.append(tdTotal);
 
                         document.querySelector("#tbody").append(tr);
+                        $("#dateReport").html(nama + " " + kelas + " " + alias);
                     }
-                    $("#dateReport").html(nama + " " + kelas + " " + alias);
                 }
             });
         }
