@@ -98,14 +98,12 @@ class StudentController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if (strlen(Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password'])) != "") {
-                $model->password = "";
-                $model->save();
-
-            } else {
                 $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
                 $model->save();
+            } else {
+                $model->password = "";
+                $model->save();
             }
-            
             
             return $this->redirect(['view', 'id' => $model->nisn]);
         }
@@ -127,8 +125,16 @@ class StudentController extends Controller
         $model = $this->findModel($id);
         $model->password = "";
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
+        if ($model->load(Yii::$app->request->post())) {
+            if (strlen(Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password'])) != "") {
+                $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
+                $model->save();
+            } else {
+                $model->password = "";
+                $model->save();
+            }
+
+
             $model->save();
             return $this->redirect(['view', 'id' => $model->nisn]);
         }

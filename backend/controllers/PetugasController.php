@@ -98,11 +98,11 @@ class PetugasController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if (strlen(Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password'])) != "") {
-                $model->password = "";
+                $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
                 $model->save();
 
             } else {
-                $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
+                $model->password = "";
                 $model->save();
             }
             return $this->redirect(['view', 'id' => $model->id]);
@@ -124,9 +124,16 @@ class PetugasController extends Controller
     {
         $model = $this->findModel($id);
         $model->password = "";
+        
         if ($model->load(Yii::$app->request->post())) {
-            $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Petugas")['password']);
-            $model->save();
+            if (strlen(Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password'])) != "") {
+                $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
+                $model->save();
+            } else {
+                $model->password = "";
+                $model->save();
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

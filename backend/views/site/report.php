@@ -169,7 +169,7 @@ $this->registerJs('
             formData.append("class", $("#id-class").val());
             formData.append("skill", $("#id-skill").val());
             $.ajax({
-                url : "/action/get-siswa",
+                url : "/simps/admin/action/get-siswa",
                 type : "post",
                 data: formData,
                 processData: false,
@@ -217,7 +217,7 @@ $this->registerJs('
                 alert("Silahkan Masukkan Tanggal Terlebih Dahulu");
             } else {
                 $.ajax({
-                    url : "/action/get-range-history",
+                    url : "/simps/admin/action/get-range-history",
                     type : "post",
                     data: dateData,
                     processData: false,
@@ -285,7 +285,7 @@ $this->registerJs('
         function getAllData() {
             let formData = new FormData;
             $.ajax({
-                url : "/action/get-all-history",
+                url : "/simps/admin/action/get-all-history",
                 type : "post",
                 data: formData,
                 processData: false,
@@ -353,7 +353,7 @@ $this->registerJs('
             let formData = new FormData;
             formData.append("nisn", $("#nama-siswa").val());
             $.ajax({
-                url : "/action/get-siswa-history",
+                url : "/simps/admin/action/get-siswa-history",
                 type : "post",
                 data: formData,
                 processData: false,
