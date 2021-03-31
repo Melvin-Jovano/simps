@@ -46,7 +46,12 @@ class ActionController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'get-siswa' => ['post'],
-                    // 'get-diagram' => ['post'],
+                    'get-diagram' => ['post'],
+                    'get-diagram' => ['post'],
+                    'get-shortcut' => ['post'],
+                    'get-siswa-history' => ['post'],
+                    'get-all-history' => ['post'],
+                    'get-range-history' => ['post'],
                 ],
             ],
         ];

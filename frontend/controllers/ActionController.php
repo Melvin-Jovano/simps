@@ -38,6 +38,7 @@ class ActionController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'get-all-data' => ['post'],
+                    'get-specific-data' => ['post'],
                 ],
             ],
         ];
