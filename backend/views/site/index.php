@@ -104,7 +104,7 @@ $this->registerJs('
     $("#alert-data").hide();
     let formData = new FormData;
     $.ajax({
-        url : "/simps/admin/action/get-diagram",
+        url : "/admin/action/get-diagram",
         type : "post",
         data: formData,
         processData: false,

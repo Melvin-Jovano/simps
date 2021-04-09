@@ -16,14 +16,14 @@ $shortcut = Shortcut::find()->select(['name', 'url'])->where(['level' => Yii::$a
                 <div class="input-group">
                     <input id="search-input" autocomplete="off" class="form-control" list="output-search" type="text" placeholder="Pergi Ke (Ctrl + B)" aria-label="Search" aria-describedby="basic-addon2" />
                     <input id="user-level" type="hidden" value="<?= Yii::$app->user->identity->level; ?>" />
-                    <div class="input-group-append">
-                        <button class="btn btn-light" type="submit"><i class="fas fa-search"></i></button>
-                    </div>
                     <datalist id="output-search">
                         <?php foreach($shortcut as $datas => $data): ?>
                             <option value="<?= $data['name'] ?>">
                         <?php endforeach; ?>
                     </datalist>
+                    <div class="input-group-append">
+                        <button class="btn btn-light" type="submit"><i class="fas fa-search"></i></button>
+                    </div>
                 </div>
             </form>
             <!-- Navbar-->

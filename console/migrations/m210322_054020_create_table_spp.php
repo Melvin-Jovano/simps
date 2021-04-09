@@ -15,6 +15,9 @@ class m210322_054020_create_table_spp extends Migration
         $this->createTable("spp", [
             "id" => $this->primaryKey(),
             "nisn" => $this->integer(),
+            "nama" => $this->text(),
+            "id_kelas" => $this->integer(),
+            "id_skill" => $this->integer(),
             "nominal" => $this->text(),
             "created_at" => $this->timestamp()
         ]);

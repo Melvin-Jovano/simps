@@ -19,7 +19,11 @@ $this->title = 'Generate Laporan';
     <div class="col-lg-4">
         <div class="card">
             <div class="card-header">
-                <i class="fas fa-user-friends mr-2"></i>Cari Siswa
+                <div class="d-inline">
+                    <i class="fas fa-user-friends mr-2"></i>Cari Siswa
+                </div>
+
+                <button class="btn btn-dark btn-sm float-right d-inline" data-toggle="modal" data-target="#myModal"><i class="fas fa-search mr-2"></i>Cari NISN</button>
             </div>
 
             <div class="card-body">
@@ -84,6 +88,33 @@ $this->title = 'Generate Laporan';
     
 </div>
 
+<!-- The Modal -->
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h4 class="modal-title">Masukkan NISN</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <form id="form-nisn">
+
+      <div class="modal-body">
+        <input type="number" class="form-control" id="nisn-cari">
+      </div>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-dark">
+            Cari
+        </button>
+      </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
 <hr>
 <button id="clearTable" class="btn btn-dark btn-sm ml-3"><i class="fas fa-eraser mr-2"></i>Kosongkan Tabel</button>
 <?php if(Yii::$app->user->identity->level == 2):?>
@@ -119,6 +150,11 @@ $this->registerJs('
             today = mm + "-" + dd + "-" + yyyy;
             return today;
         }
+
+        $("#form-nisn").on("submit", (event) => {
+            event.preventDefault();
+            getSiswaData($("#nisn-cari").val());
+        });
 
         let dateData = new FormData;
         $("#nama-siswa").prop("disabled", "true");
@@ -169,7 +205,7 @@ $this->registerJs('
             formData.append("class", $("#id-class").val());
             formData.append("skill", $("#id-skill").val());
             $.ajax({
-                url : "/simps/admin/action/get-siswa",
+                url : "/admin/action/get-siswa",
                 type : "post",
                 data: formData,
                 processData: false,
@@ -217,7 +253,7 @@ $this->registerJs('
                 alert("Silahkan Masukkan Tanggal Terlebih Dahulu");
             } else {
                 $.ajax({
-                    url : "/simps/admin/action/get-range-history",
+                    url : "/admin/action/get-range-history",
                     type : "post",
                     data: dateData,
                     processData: false,
@@ -285,7 +321,7 @@ $this->registerJs('
         function getAllData() {
             let formData = new FormData;
             $.ajax({
-                url : "/simps/admin/action/get-all-history",
+                url : "/admin/action/get-all-history",
                 type : "post",
                 data: formData,
                 processData: false,
@@ -349,11 +385,16 @@ $this->registerJs('
             });
         }
 
-        function getSiswaData() {
+        function getSiswaData(nisn = "") {
             let formData = new FormData;
-            formData.append("nisn", $("#nama-siswa").val());
+            if(nisn != "") {
+                formData.append("nisn", nisn);
+            }else {
+                formData.append("nisn", $("#nama-siswa").val());
+            }
+            
             $.ajax({
-                url : "/simps/admin/action/get-siswa-history",
+                url : "/admin/action/get-siswa-history",
                 type : "post",
                 data: formData,
                 processData: false,
@@ -369,6 +410,7 @@ $this->registerJs('
                         alert("Data Tidak Ditemukan");
                         $("#dateReport").html("");
                     } else {
+                        $("#myModal").modal("hide");
                         data.data.forEach((spp) => {
                             nama = spp.nama;
                             alias = spp.alias;

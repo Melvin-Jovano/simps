@@ -16,7 +16,7 @@ use frontend\models\Student;
 use yii\web\Response;
 
 /**
- * Site controller
+ * Site
  */
 class ActionController extends Controller
 {
@@ -179,11 +179,11 @@ class ActionController extends Controller
 
         if ($req->isAjax) {
             $data = (new \yii\db\Query())
-            ->select("spp.created_at, spp.nominal, student.nama, skill.skill, class.class")
+            ->select("spp.created_at, spp.nominal, spp.nama, skill.skill, class.class")
             ->from('spp')
             ->leftJoin('student', 'student.nisn = spp.nisn')
-            ->leftJoin('skill', 'skill.id = student.id_skill')
-            ->leftJoin('class', 'class.id = student.id_kelas')
+            ->leftJoin('skill', 'skill.id = spp.id_skill')
+            ->leftJoin('class', 'class.id = spp.id_kelas')
             ->all();
 
             if($data) {
@@ -205,11 +205,11 @@ class ActionController extends Controller
 
         if ($req->isAjax) {
             $data = (new \yii\db\Query())
-            ->select("spp.created_at, spp.nominal, student.nama, skill.skill, class.class, skill.alias")
+            ->select("spp.created_at, spp.nominal, spp.nama, skill.skill, class.class, skill.alias")
             ->from('spp')
             ->leftJoin('student', 'student.nisn = spp.nisn')
-            ->leftJoin('skill', 'skill.id = student.id_skill')
-            ->leftJoin('class', 'class.id = student.id_kelas')
+            ->leftJoin('skill', 'skill.id = spp.id_skill')
+            ->leftJoin('class', 'class.id = spp.id_kelas')
             ->where(['spp.nisn' => $req->post("nisn")])
             ->all();
 
@@ -233,11 +233,11 @@ class ActionController extends Controller
         if ($req->isAjax) {
 
             $data = (new \yii\db\Query())
-            ->select("spp.created_at, spp.nominal, student.nama, skill.skill, class.class")
+            ->select("spp.created_at, spp.nominal, spp.nama, skill.skill, class.class")
             ->from('spp')
             ->leftJoin('student', 'student.nisn = spp.nisn')
-            ->leftJoin('skill', 'skill.id = student.id_skill')
-            ->leftJoin('class', 'class.id = student.id_kelas')
+            ->leftJoin('skill', 'skill.id = spp.id_skill')
+            ->leftJoin('class', 'class.id = spp.id_kelas')
             ->andWhere(['between', 'spp.created_at', $req->post('date1'), $req->post('date2')])
             ->all();
 

@@ -97,7 +97,7 @@ class StudentController extends Controller
         $model = new Student();
 
         if ($model->load(Yii::$app->request->post())) {
-            if (strlen(Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password'])) != "") {
+            if (Yii::$app->request->post("Student")['password'] != "") {
                 $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
                 $model->save();
             } else {
@@ -126,7 +126,7 @@ class StudentController extends Controller
         $model->password = "";
 
         if ($model->load(Yii::$app->request->post())) {
-            if (strlen(Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password'])) != "") {
+            if (Yii::$app->request->post("Student")['password'] != "") {
                 $model->password = Yii::$app->security->generatePasswordHash(Yii::$app->request->post("Student")['password']);
                 $model->save();
             } else {

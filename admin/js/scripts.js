@@ -34,7 +34,7 @@ $("#search-form").on('submit', (event) => {
     formData.append("name", $("#search-input").val());
     formData.append("level", $("#user-level").val());
     $.ajax({
-        url: "/action/get-shortcut",
+        url: "/admin/action/get-shortcut",
         type: "post",
         data: formData,
         processData: false,

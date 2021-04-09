@@ -100,7 +100,11 @@ class SiteController extends Controller
             } else {
                 Yii::$app->session->setFlash('success', 'Pembayaran Berhasil');
                 $check = Spp::find()->select(['nisn'])->where(['nisn' => Yii::$app->request->post("nama-siswa")])->one();
+                $studentData = Student::find()->where(['nisn' => Yii::$app->request->post("nama-siswa")])->one();
                 $spp->nisn = Yii::$app->request->post("nama-siswa");
+                $spp->nama = $studentData->nama;
+                $spp->id_kelas = $studentData->id_kelas;
+                $spp->id_skill = $studentData->id_skill;
                 $spp->nominal = Yii::$app->request->post("Spp")['nominal'];
                 $spp->save();
                 return $this->redirect(["site/billing"]);

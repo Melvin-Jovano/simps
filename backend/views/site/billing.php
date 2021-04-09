@@ -117,7 +117,7 @@ $this->registerJs('
             formData.append("class", $("#id-class").val());
             formData.append("skill", $("#id-skill").val());
             $.ajax({
-                url : "/simps/admin/action/get-siswa",
+                url : "/admin/action/get-siswa",
                 type : "post",
                 data: formData,
                 processData: false,
